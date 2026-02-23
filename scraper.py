@@ -46,28 +46,24 @@ def scrape_source(url: str) -> Dict[str, any]:
         
         return {
             'url': url,
-            'text': text[:5000],  # Limit text length
-            'articles': articles[:20],  # Limit number of articles
+            'text': text[:5000],
+            'articles': articles[:20],
             'success': True
         }
     except Exception as e:
-        logger.error(f"Error scraping {url}: {str(e)}")
-        return {
-            'url': url,
-            'text': '',
-            'articles': [],
-            'success': False,
-            'error': str(e)
-        }
+        logger.error("Error parsing %s: %s", url, e)
+        return {'url': url, 'text': '', 'articles': [], 'success': False, 'error': str(e)}
 
 def scrape_all_sources(urls: List[str]) -> List[Dict[str, any]]:
-    """Scrape all news sources."""
+    """Scrape all news sources. Continues on per-source failures."""
     results = []
-    for url in urls:
-        logger.info(f"Scraping {url}...")
+    for i, url in enumerate(urls):
+        logger.info("Scraping [%d/%d] %s...", i + 1, len(urls), url)
         result = scrape_source(url)
         results.append(result)
-        time.sleep(2)  # Be respectful with rate limiting
+        if not result.get('success'):
+            logger.warning("Skipped (failed): %s", url)
+        time.sleep(2)  # Rate limiting
     return results
 
 

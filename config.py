@@ -3,8 +3,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# OpenAI Configuration
+# LLM Configuration (use Gemini if GEMINI_API_KEY is set, otherwise OpenAI)
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-2.0-flash')  # single model per request
 
 # Email Configuration
 EMAIL_ADDRESS = os.getenv('EMAIL_ADDRESS', 'akshatboudh4@gmail.com')

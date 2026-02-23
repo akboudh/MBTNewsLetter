@@ -1,11 +1,11 @@
 # MBT Newsletter Generator
 
-An automated newsletter system that scrapes tech news sources, analyzes them with OpenAI, and sends a curated newsletter to your email every 5 days. Perfect for staying updated on the latest tech and business insights.
+An automated newsletter system that scrapes tech news sources, analyzes them with AI (OpenAI or Google Gemini), and sends a curated newsletter to your email every 5 days. Perfect for staying updated on the latest tech and business insights.
 
 ## 🚀 Features
 
 - **Automated Scraping**: Scrapes content from 6 major tech news sources
-- **AI-Powered Curation**: Uses OpenAI GPT-4 to analyze and curate the most relevant stories
+- **AI-Powered Curation**: Uses OpenAI GPT-4 or Google Gemini to analyze and curate the most relevant stories
 - **Beautiful HTML Emails**: Generates polished, Purdue-themed HTML newsletters
 - **Automated Scheduling**: Automatically sends emails every 5 days
 - **Strategic Focus**: Curates stories with strategic insights for business + AI students
@@ -16,7 +16,7 @@ An automated newsletter system that scrapes tech news sources, analyzes them wit
 Before you begin, ensure you have:
 
 - **Python 3.8+** installed on your system
-- An **OpenAI API key** ([Get one here](https://platform.openai.com/api-keys))
+- An **OpenAI API key** ([Get one here](https://platform.openai.com/api-keys)) **or** a **Google Gemini API key** ([Get one here](https://aistudio.google.com/apikey)) — if both are set, **Gemini is used**
 - A **Gmail account** with 2-Step Verification enabled (for app passwords)
 - Basic familiarity with command line/terminal
 
@@ -64,8 +64,9 @@ touch .env
 Edit the `.env` file and add the following variables:
 
 ```env
-# Required: OpenAI API Key
+# AI: Use ONE of these (if GEMINI_API_KEY is set, Gemini is used; otherwise OpenAI)
 OPENAI_API_KEY=your_openai_api_key_here
+# GEMINI_API_KEY=your_gemini_api_key_here   # Get at https://aistudio.google.com/apikey
 
 # Required: Email Configuration
 EMAIL_ADDRESS=your_email@gmail.com
@@ -150,6 +151,7 @@ mbtnewsletter/
 ├── main.py              # Main entry point
 ├── scraper.py           # Web scraping logic
 ├── openai_client.py     # OpenAI API integration
+├── gemini_client.py     # Google Gemini API integration (used when GEMINI_API_KEY is set)
 ├── email_sender.py      # Email sending functionality
 ├── scheduler.py         # Scheduling logic
 ├── config.py            # Configuration and settings
@@ -206,8 +208,8 @@ You can customize email settings in `config.py` or via environment variables:
 
 ### Common Issues
 
-**Issue: "OPENAI_API_KEY not set"**
-- Solution: Make sure your `.env` file exists and contains `OPENAI_API_KEY=your_key_here`
+**Issue: "OPENAI_API_KEY not set" or "GEMINI_API_KEY not set"**
+- Solution: Add either `OPENAI_API_KEY=your_key_here` or `GEMINI_API_KEY=your_key_here` to your `.env`. If both are set, Gemini is used.
 
 **Issue: "EMAIL_PASSWORD not set"**
 - Solution: Ensure you've created a Gmail app password and added it to your `.env` file
